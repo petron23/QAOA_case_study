@@ -8,7 +8,7 @@ from qiskit.circuit import QuantumCircuit
 
 
 def plot_charging_schedule(charging_unit, minimization_result_x, marker_size=50,) -> go.Figure:
-    marker_colors = ["green", "orange", "blue", "red", "magenta","goldenrod"]
+    marker_colors = ["green", "red", "orange", "blue", "magenta","goldenrod"]
     time_slots = np.arange(0, charging_unit.num_time_slots)
     fig = go.Figure()
     already_in_legend = []
