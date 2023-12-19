@@ -5,6 +5,7 @@ from typing import Union
 from qiskit_optimization.converters import QuadraticProgramConverter, \
 LinearEqualityToPenalty, IntegerToBinary
 import random
+from qiskit_optimization.algorithms import CplexOptimizer
 
 class Car:
     def __init__(self,car_id: int, time_slots_at_charging_unit: List[int], required_energy: int)-> None :
@@ -32,9 +33,9 @@ class ChargingUnit:
             info_cars_registered = info_cars_registered + " " + car.car_id
         return "Charging unit with\n" \
             " charging levels: " \
-            f"{list(range(self.num_charging_levels))[1:-1]}\n" \
+            f"{list(range(self.num_charging_levels))}\n" \
             " time slots: " \
-            f"{list(range(self.num_time_slots))[1:-1]}\n" \
+            f"{list(range(self.num_time_slots))}\n" \
             " cars to charge:" \
             + info_cars_registered
     
@@ -115,17 +116,59 @@ class Converter(QuadraticProgramConverter):
     def interpret(self, x: Union[np.ndarray, List[float]]) -> np.ndarray:
         return self.linear_equality_to_penalty_converter.interpret(self.integer_to_binary_converter.interpret(x))
     
-def generate_example():
-    time_slots = random.randint(5,10)
-    charging_unit = ChargingUnit(unit_name="charging_unit", num_charging_levels=random.randint(6,10), num_time_slots=time_slots)
-    car_green = Car(car_id="car_green", time_slots_at_charging_unit=np.arange(random.randint(0,3),time_slots), required_energy=random.randint(5,15))
-    car_red = Car(car_id="car_red", time_slots_at_charging_unit=np.arange(random.randint(0,3),time_slots), required_energy=random.randint(5,15))
+def generate_example(random_values = True):
+    if not random_values:
+        time_slots = 4
+        charging_unit = ChargingUnit(unit_name="charging_unit", num_charging_levels=4, num_time_slots=time_slots)
+        car_green = Car(car_id="car_green", time_slots_at_charging_unit=[0,1,2], required_energy=4)
+        charging_unit.register_car_for_charging(car_green)
+        qcio = generate_qcio(charging_unit, name="QCIO")
+        converter = Converter(penalty=5.1)
+        qubo = converter.convert(qcio)
+        qubo.name = "QUBO"
+        number_binary_variables = qubo.get_num_binary_vars()
+        cplex_optimizer = CplexOptimizer()
+        qubo_minimization_result = cplex_optimizer.solve(qubo)
+
+        qcio = generate_qcio(charging_unit, name="QCIO")
+        converter = Converter(penalty=5.1)
+        qubo = converter.convert(qcio)
+        qubo.name = "QUBO"
+        number_binary_variables = qubo.get_num_binary_vars()
+        cplex_optimizer = CplexOptimizer()
+        qubo_minimization_result = cplex_optimizer.solve(qubo)
+
+        return charging_unit, car_green, qcio, converter, qubo, number_binary_variables, qubo_minimization_result
     
-    return charging_unit, car_green, car_red
+    else:
+        time_slots = random.randint(5,10)
+        charging_unit = ChargingUnit(unit_name="charging_unit", num_charging_levels=random.randint(6,10), num_time_slots=time_slots)
+        car_green = Car(car_id="car_green", time_slots_at_charging_unit=np.arange(random.randint(0,3),time_slots), required_energy=random.randint(5,15))
+        car_red = Car(car_id="car_red", time_slots_at_charging_unit=np.arange(random.randint(0,3),time_slots), required_energy=random.randint(5,15))
+        qcio = generate_qcio(charging_unit, name="QCIO")
+        charging_unit.register_car_for_charging(car_green)
+        charging_unit.register_car_for_charging(car_red)
 
+        
+        converter = Converter(penalty=5.1)
+        qubo = converter.convert(qcio)
+        qubo.name = "QUBO"
+        number_binary_variables = qubo.get_num_binary_vars()
+        cplex_optimizer = CplexOptimizer()
+        qubo_minimization_result = cplex_optimizer.solve(qubo)
+
+        return charging_unit, car_green, car_red, qcio, converter, qubo, number_binary_variables, qubo_minimization_result
+
+
+    
 if __name__ == "__main__":
-    cu, cg, cr = generate_example()
 
-    print(cu)
-    print(cg)
-    print(cr)
+
+
+    #charging_unit, car_green, qcio = generate_example(random_values=False)
+
+    charging_unit, car_green, qcio, converter, qubo, number_binary_variables, qubo_minimization_result = generate_example(random_values=False)
+
+    print(charging_unit)
+    print(car_green)
+    #print()
