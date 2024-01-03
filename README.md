@@ -13,16 +13,16 @@ $A \in \mathbb{R}^{n \times n}; \quad L \in \mathbb{R}^{n \times 1}; \quad c \in
 (The precise form of $f_3$ is derived in nb1 where it is shown how to obtain the it from a QCIO.)
 Let us transform it into an Ising Hamiltonian. Writing the equation in coordinate representation
 
-\sum\limits_{i=0}^{n-1} \sum\limits_{j>i}^{n-1} a_{ij} b_i b_j + \sum\limits_{i=0}^{n-1} l_i b_i + c
+$\sum\limits_{i=0}^{n-1} \sum\limits_{j>i}^{n-1} a_{ij} b_i b_j + \sum\limits_{i=0}^{n-1} l_i b_i + c$
 
 The following operation is applied:
 
 $$b_i \leftrightarrow \frac{1}{2} \left( I^{\bigotimes n} - \sigma_Z^{(i)} \right)$$
 
-$I = \begin{matrix} 1 & 0 \\ 0 & 1 \end{matrix}$,
+$I = \begin{matrix} 1 & 0 \\\ 0 & 1 \end{matrix}$,
 
 $\sigma_Z = I\otimes ... \otimes I \otimes Z_{[\text{at ith pos}]} \otimes I \otimes...\otimes I$,
 
-$Z = \begin{matrix} 1 & 0 \\ 0 & -1 \end{matrix}$.
+$Z = \begin{matrix} 1 & 0 \\\ 0 & -1 \end{matrix}$.
 
 This substitution can be understood by using an Ising lattice that has instead of $\{-1, 1\}$ the values $\{0, 1\}$ on its sites. This is demonstrated below. 
