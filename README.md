@@ -19,10 +19,10 @@ The following operation is applied:
 
 $$b_i \leftrightarrow \frac{1}{2} \left( I^{\bigotimes n} - \sigma_Z^{(i)} \right)$$
 
-$I = \begin{matrix} 1 & 0 \\\ 0 & 1 \end{matrix}$,
+$I = \begin{bmatrix} 1 & 0 \\\ 0 & 1 \end{matrix}$,
 
 $\sigma_Z = I\otimes ... \otimes I \otimes Z_{[\text{at ith pos}]} \otimes I \otimes...\otimes I$,
 
-$Z = \begin{matrix} 1 & 0 \\\ 0 & -1 \end{matrix}$.
+$Z = \begin{bmatrix} 1 & 0 \\\ 0 & -1 \end{matrix}$.
 
 This substitution can be understood by using an Ising lattice that has instead of $\{-1, 1\}$ the values $\{0, 1\}$ on its sites. This is demonstrated below. 
