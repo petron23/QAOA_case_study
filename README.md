@@ -25,4 +25,4 @@ $\sigma_Z = I\otimes ... \otimes I \otimes Z_{[\text{at ith pos}]} \otimes I \ot
 
 $Z = \begin{bmatrix} 1 & 0 \\\ 0 & -1 \end{bmatrix}$.
 
-This substitution can be understood by using an Ising lattice that has instead of $\{-1, 1\}$ the values $\{0, 1\}$ on its sites. This is demonstrated below. 
+This substitution can be understood by using an Ising lattice that has instead of $\{-1, 1\}$ the values $\{0, 1\}$ on its sites. This is demonstrated below.
